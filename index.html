@@ -1,40 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="utf-8">
-<title>Security Check</title>
-<link rel="stylesheet" href="style.css">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Vault | Free Password Analyzer</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="futuristic-bg"></div>
-<main>
-  <h1 class="fancy-title">
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 24 24" style="vertical-align:middle;margin-right:10px;"><rect width="24" height="24" rx="12" fill="#3b82f6"/><path d="M12 17a2 2 0 0 0 2-2v-1h-4v1a2 2 0 0 0 2 2Zm6-6v-1a6 6 0 1 0-12 0v1a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v-2a3 3 0 0 1 6 0v2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2Zm-8-1a4 4 0 1 1 8 0v1h-8v-1Z" fill="#fff"/></svg>
-    Security Check <span class="year-glow">2026+</span>
-  </h1>
-  <div id="passwordTool" class="box glassmorph">
-    <div class="icon-orb">
-      <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="none" viewBox="0 0 24 24"><rect width="24" height="24" rx="12" fill="#60a5fa"/><path d="M12 17a2 2 0 0 0 2-2v-1h-4v1a2 2 0 0 0 2 2Zm6-6v-1a6 6 0 1 0-12 0v1a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v-2a3 3 0 0 1 6 0v2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2Zm-8-1a4 4 0 1 1 8 0v1h-8v-1Z" fill="#fff"/></svg>
-    </div>
-    <input type="password" id="password" placeholder="Enter your password" autocomplete="off" autofocus>
-    <div class="input-actions">
-      <button onclick="checkPassword()" class="neon-btn">Check Password</button>
-      <button onclick="togglePassword()" class="ghost-btn" title="Show/Hide Password">
-        <span id="eyeIcon">👁️</span>
-      </button>
-      <button onclick="generatePassword()" class="ghost-btn" title="Generate Futuristic Password">
-        <span>⚡</span>
-      </button>
-    </div>
-    <div class="strength-bar" id="strengthBar"><div></div></div>
-    <p id="result"></p>
+  <!-- Floating particles -->
+  <div class="particles">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
   </div>
-</main>
-<script src="script.js"></script>
-<footer class="site-footer">
-    <p>&copy; 2026 Security Check. All rights reserved.</p>
-    <ul>
-       <li><a href="https://www.instagram.com/___lubolabao.1___/">Connect me</a></li>
-    </ul>
-</footer>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">
+        <span class="logo-icon">🔐</span>
+        Password Checker
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#analyzer">Analyzer</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#generator">Generator</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-12">
+          
+          <!-- Hero Header -->
+          <div class="hero-header text-center mb-5">
+            <div class="hero-icon mb-3">
+              <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="url(#pattern0)"/>
+                <path d="M32 16L42 32L32 48L22 32L32 32Z" fill="#4F46E5"/>
+                <circle cx="32" cy="32" r="28" stroke="#A5B4FC" stroke-width="2"/>
+                <defs>
+                  <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                    <rect width="1" height="1" fill="url(#paint0_radial_194_6)"/>
+                  </pattern>
+                  <radialGradient id="paint0_radial_194_6" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(0 1) rotate(90) scale(1)">
+                    <stop offset="0" stop-color="#4F46E5"/>
+                    <stop offset="1" stop-color="#3730A3" stop-opacity="0.5"/>
+                  </radialGradient>
+                </defs>
+              </svg>
+            </div>
+            <h1 class="hero-title mb-2">Password Security Analyzer</h1>
+            <p class="hero-subtitle">Analyze and generate ultra-secure passwords instantly</p>
+          </div>
+
+          <!-- Analyzer Card -->
+          <div class="analyzer-card">
+            <div class="card-input-group">
+              <div class="input-wrapper">
+                <input type="password" id="password" class="form-control" placeholder="Enter password to analyze..." autocomplete="off">
+                <button class="input-toggle" onclick="togglePassword()" title="Show/Hide">
+                  <span id="eyeIcon">👁</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="btn-grid">
+              <button class="btn btn-primary" onclick="checkPassword()">
+                <span>🔍 Analyze</span>
+              </button>
+              <button class="btn btn-secondary" onclick="generatePassword()">
+                <span>⚡ Generate</span>
+              </button>
+              <button class="btn btn-accent" id="copyBtn" onclick="copyPassword()" style="display: none;">
+                <span>📋 Copy</span>
+              </button>
+            </div>
+
+            <!-- Strength Meter -->
+            <div class="strength-meter">
+              <div class="progress-container">
+                <div class="progress" id="strengthBar">
+                  <div class="progress-fill" role="progressbar"></div>
+                </div>
+              </div>
+              <div class="strength-labels">
+                <span class="label weak">Weak</span>
+                <span class="label medium">Medium</span>
+                <span class="label strong">Strong</span>
+              </div>
+            </div>
+
+            <!-- Result -->
+            <div id="result" class="result-panel">
+              <div class="result-icon">🔒</div>
+              <div class="result-text">Enter a password to analyze security</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Password Checker. Built by Dhrubo Basu.</p>
+        <div class="social-links">
+          <a href="https://instagram.com">Connect with me on Instagram</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
