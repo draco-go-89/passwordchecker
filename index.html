@@ -25,7 +25,7 @@
         <span class="logo-icon">🔐</span>
         Password Checker
       </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -71,35 +71,42 @@
             <p class="hero-subtitle">Analyze and generate ultra-secure passwords instantly</p>
           </div>
 
-          <!-- Analyzer Card -->
-          <div class="analyzer-card">
+          <!-- Analyzer Section Anchor -->
+          <section id="analyzer">
+            <!-- Analyzer Card -->
+            <div class="analyzer-card">
+
             <div class="card-input-group">
               <div class="input-wrapper">
                 <input type="password" id="password" class="form-control" placeholder="Enter password to analyze..." autocomplete="off">
-                <button class="input-toggle" onclick="togglePassword()" title="Show/Hide">
+                <button class="input-toggle" onclick="togglePassword()" title="Show/Hide" aria-label="Show/Hide password">
                   <span id="eyeIcon">👁</span>
                 </button>
+
               </div>
             </div>
 
             <!-- Action Buttons -->
             <div class="btn-grid">
-              <button class="btn btn-primary" onclick="checkPassword()">
+          <button class="btn btn-primary" onclick="checkPassword()" type="button">
+
                 <span>🔍 Analyze</span>
               </button>
-              <button class="btn btn-secondary" onclick="generatePassword()">
+              <button class="btn btn-secondary" onclick="generatePassword()" type="button">
+
                 <span>⚡ Generate</span>
               </button>
-              <button class="btn btn-accent" id="copyBtn" onclick="copyPassword()" style="display: none;">
+              <button class="btn btn-accent d-none" id="copyBtn" onclick="copyPassword()" type="button" title="Copy password">
                 <span>📋 Copy</span>
               </button>
+
             </div>
 
             <!-- Strength Meter -->
             <div class="strength-meter">
               <div class="progress-container">
                 <div class="progress" id="strengthBar">
-                  <div class="progress-fill" role="progressbar"></div>
+                  <div class="progress-fill" role="progressbar" aria-label="Password strength"></div>
                 </div>
               </div>
               <div class="strength-labels">
@@ -115,8 +122,24 @@
               <div class="result-text">Enter a password to analyze security</div>
             </div>
           </div>
+        </section>
+
+        <section id="generator" class="mt-5">
+          <div class="analyzer-card">
+            <div class="result-text">Use the “Generate” button above to create a secure password.</div>
+            <div class="result-icon mt-3">⚡</div>
+          </div>
+        </section>
+
+
+        <section id="about" class="mt-5">
+          <div class="analyzer-card">
+            <div class="result-text">This tool analyzes password strength and generates stronger passwords using a mixed character set.</div>
+          </div>
+        </section>
 
         </div>
+
       </div>
     </div>
   </main>
@@ -125,9 +148,9 @@
   <footer class="footer">
     <div class="container">
       <div class="footer-content">
-        <p>&copy; 2026 Password Checker. Built by Dhrubo Basu.</p>
+        <p>&copy; 2026 Password Checker. Built by Dhrubo Basumatary.</p>
         <div class="social-links">
-          <a href="https://instagram.com">Connect with me on Instagram</a>
+          <a href="https://instagram.com">Connect with me</a>
         </div>
       </div>
     </div>
