@@ -2,14 +2,7 @@
   "changelists": [
     {
       "name": "Default",
-      "files": [
-        "TODO.md",
-        ".vscode/changelists.json",
-        "index.html",
-        "script.js",
-        "style.css",
-        ".hintrc"
-      ]
+      "files": []
     }
   ],
   "active": "Default"
