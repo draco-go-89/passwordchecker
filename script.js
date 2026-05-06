@@ -1,32 +1,36 @@
 (function() {
   'use strict';
 
-  // Cache DOM elements
-  const DOM = {
-    password: document.getElementById('password'),
-    result: document.getElementById('result'),
-    strengthBar: document.querySelector('#strengthBar .progress-fill'),
-    copyBtn: document.getElementById('copyBtn'),
-    eyeIcon: document.getElementById('eyeIcon'),
-    inputToggle: document.querySelector('.input-toggle'),
-    navbarLinks: document.querySelectorAll('.navbar-nav a[href^="#"]'),
-    navbar: document.querySelector('.navbar')
-  };
+  // Query DOM elements (on-demand to avoid early null caching issues)
+  function getDom() {
+    return {
+      password: document.getElementById('password'),
+      result: document.getElementById('result'),
+      strengthBar: document.querySelector('#strengthBar .progress-fill'),
+      copyBtn: document.getElementById('copyBtn'),
+      eyeIcon: document.getElementById('eyeIcon'),
+      inputToggle: document.querySelector('.input-toggle'),
+      navbarLinks: document.querySelectorAll('.navbar-nav a[href^="#"]'),
+      navbar: document.querySelector('.navbar')
+    };
+  }
 
   // Initialize app
   function init() {
+    const DOM = getDom();
+
     // Event listeners
     if (DOM.password) {
       DOM.password.addEventListener('input', throttle(checkPassword, 100));
       DOM.password.addEventListener('paste', () => setTimeout(checkPassword, 50));
     }
-    
+
     // Navbar functionality
     setupNavbar();
-    
+
     // Keyboard shortcuts
     setupKeyboard();
-    
+
     // Initial state
     checkPassword();
     updateNavbar();
@@ -43,8 +47,11 @@
 
   // Password analysis
   function checkPassword() {
+    const DOM = getDom();
+    if (!DOM.password) return;
+
     const password = DOM.password.value.trim();
-    
+
     if (!password) {
       resetUI();
       return;
@@ -52,7 +59,7 @@
 
     const analysis = analyzePassword(password);
     renderAnalysis(analysis);
-    DOM.copyBtn.style.display = 'inline-flex';
+    if (DOM.copyBtn) DOM.copyBtn.style.display = 'inline-flex';
   }
 
   function analyzePassword(password) {
@@ -101,14 +108,16 @@
   }
 
   function renderAnalysis({ score, feedback, level }) {
+    const DOM = getDom();
     const width = Math.min((score / 7) * 100, 100);
-    
-    DOM.strengthBar.style.width = width + '%';
-    
-    const badges = feedback.length 
+
+    if (DOM.strengthBar) DOM.strengthBar.style.width = width + '%';
+    if (!DOM.result) return;
+
+    const badges = feedback.length
       ? feedback.map(f => `<span class="badge bg-glass text-xs">${f}</span>`).join('')
       : '<span class="badge bg-success text-xs">Perfect!</span>';
-    
+
     DOM.result.innerHTML = `
       <div class="result-header">
         <span class="result-icon text-${level.color}-400">${level.icon}</span>
@@ -120,13 +129,19 @@
   }
 
   function resetUI() {
-    DOM.strengthBar.style.width = '0%';
-    DOM.result.innerHTML = '<div class="result-icon">🔒</div><div class="result-text">Enter password to get instant analysis</div>';
-    DOM.copyBtn.style.display = 'none';
+    const DOM = getDom();
+    if (DOM.strengthBar) DOM.strengthBar.style.width = '0%';
+    if (DOM.result) {
+      DOM.result.innerHTML = '<div class="result-icon">🔒</div><div class="result-text">Enter password to get instant analysis</div>';
+    }
+    if (DOM.copyBtn) DOM.copyBtn.style.display = 'none';
   }
 
   // Toggle visibility
   function togglePassword() {
+    const DOM = getDom();
+    if (!DOM.password || !DOM.eyeIcon) return;
+
     const isPassword = DOM.password.type === 'password';
     DOM.password.type = isPassword ? 'text' : 'password';
     DOM.eyeIcon.textContent = isPassword ? '🙈' : '👁';
@@ -134,6 +149,9 @@
 
   // Generate secure password
   function generatePassword() {
+    const DOM = getDom();
+    if (!DOM.password) return;
+
     const length = 18 + Math.floor(Math.random() * 6); // 18-24 chars
     const charset = {
       lower: 'abcdefghijklmnopqrstuvwxyz',
@@ -141,7 +159,7 @@
       digits: '0123456789',
       symbols: '!@#$%^&*()_+{}[]|:;\'\",.<>?/`~'
     };
-    
+
     let password = '';
 
     // Mandatory types
@@ -156,13 +174,15 @@
       password += allChars[Math.floor(Math.random() * allChars.length)];
     }
 
-    // Fisher-Yates shuffle
-    for (let i = password.length - 1; i > 0; i--) {
+    // Fisher-Yates shuffle (string -> array -> string)
+    const arr = password.split('');
+    for (let i = arr.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [password[i], password[j]] = [password[j], password[i]];
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    const shuffled = arr.join('');
 
-    DOM.password.value = password;
+    DOM.password.value = shuffled;
     checkPassword();
   }
 
@@ -181,11 +201,14 @@
   }
 
   function showCopyFeedback() {
+    const DOM = getDom();
     const btn = DOM.copyBtn;
+    if (!btn) return;
+
     const original = btn.innerHTML;
     btn.innerHTML = '✅ Copied!';
     btn.classList.add('success');
-    
+
     setTimeout(() => {
       btn.innerHTML = original;
       btn.classList.remove('success');
@@ -206,6 +229,7 @@
 
   // Navbar setup
   function setupNavbar() {
+    const DOM = getDom();
     DOM.navbarLinks.forEach(link => {
       link.addEventListener('click', e => {
         e.preventDefault();
@@ -222,9 +246,10 @@
   }
 
   function updateNavbar() {
+    const DOM = getDom();
     let current = '';
     const sections = document.querySelectorAll('[id]');
-    
+
     sections.forEach(section => {
       const rect = section.getBoundingClientRect();
       if (rect.top <= 100) {
@@ -241,9 +266,10 @@
   function setupKeyboard() {
     document.addEventListener('keydown', e => {
       if (e.target.closest('input')) return;
-      
+
+      const DOM = getDom();
       const ctrlOrCmd = e.ctrlKey || e.metaKey;
-      
+
       switch (e.key.toLowerCase()) {
         case 'g':
           if (ctrlOrCmd) {
@@ -252,14 +278,14 @@
           }
           break;
         case 'a':
-          if (ctrlOrCmd) {
+          if (ctrlOrCmd && DOM.password) {
             e.preventDefault();
             DOM.password.focus();
             DOM.password.select();
           }
           break;
         case 'c':
-          if (ctrlOrCmd && DOM.password.value.trim()) {
+          if (ctrlOrCmd && DOM.password && DOM.password.value.trim()) {
             e.preventDefault();
             copyPassword();
           }
@@ -310,18 +336,32 @@
     let lastScrollY = 0;
     window.addEventListener('scroll', () => {
       const currentScrollY = window.scrollY;
+      const DOM = getDom();
       const navbar = DOM.navbar;
-      
+
+      if (!navbar) return;
+
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         navbar.style.transform = 'translateY(-100%)';
       } else {
         navbar.style.transform = 'translateY(0)';
       }
-      
+
       lastScrollY = currentScrollY;
     });
   }
 
-  init();
+  // Expose functions for inline onclick handlers
+  window.checkPassword = checkPassword;
+  window.generatePassword = generatePassword;
+  window.copyPassword = copyPassword;
+  window.togglePassword = togglePassword;
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
+
 
