@@ -1,10 +1,5 @@
-# TODO
-
-- [ ] Identify failing functionality causes (console errors, missing elements, wrong IDs).
-- [ ] Fix navbar navigation (Analyzer/Generator/About anchors) by adding missing section IDs or updating href targets.
-- [ ] Fix Analyze/Generate/Copy button bindings (ensure functions are globally accessible / correct event wiring).
-- [ ] Fix togglePassword button (currently inline onclick calling togglePassword; ensure function exists in global scope).
-- [ ] Fix undefined DOM elements (DOM.strengthBar selector may not match HTML; ensure styles/progress update works).
-- [ ] Improve generator quality if needed (charset/shuffle robustness).
-- [ ] Add/adjust result rendering and strength bar updates.
-- [ ] Run a quick manual test plan (open index.html, try buttons, navbar, keyboard shortcuts).
+- [x] Step 1: Clean and rewrite glassmorphism-related CSS in style.css with blue/green colorful glass look.
+- [x] Step 2: Improve “card” sections (.box / #passwordTool.glassmorph) to match the new theme.
+- [x] Step 3: Ensure strength bar + typography colors match blue/green glass theme.
+- [x] Step 4: Optionally update script.js strength/result palette to match the same blue/green theme.
+- [ ] Step 5: Smoke test by loading index.html and verifying UI appearance (no CSS glitches).
