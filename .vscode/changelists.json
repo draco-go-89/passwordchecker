@@ -3,10 +3,9 @@
     {
       "name": "Default",
       "files": [
-        "TODO.md",
         ".vscode/changelists.json",
-        "style.css",
-        "script.js"
+        "TODO.md",
+        "style.css"
       ]
     }
   ],
