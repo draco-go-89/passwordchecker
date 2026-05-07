@@ -105,23 +105,55 @@
         color: #fff;
     }
 
-    .strength-bar {
+.strength-bar {
         width: 90%;
-        height: 10px;
-        background: rgba(59,130,246,0.10);
-        border-radius: 8px;
+        height: 14px;
         margin: 0 auto 18px auto;
         overflow: hidden;
+        position: relative;
+        border-radius: 999px;
+        background: rgba(59,130,246,0.10);
         box-shadow: 0 1px 8px #3b82f633;
+        /* keep shape consistent */
+        transform: translateZ(0);
+    }
+    .strength-bar::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 999px;
+        background:
+            radial-gradient(120px 30px at 20% 50%, rgba(186,230,253,0.35), transparent 60%),
+            radial-gradient(120px 30px at 80% 50%, rgba(96,165,250,0.25), transparent 60%);
+        pointer-events: none;
+        opacity: 0.8;
     }
     .strength-bar > div {
         height: 100%;
         width: 0%;
+        border-radius: 999px;
+        position: relative;
+        /* flexible shaped fill */
         background: linear-gradient(90deg, #bae6fd 0%, #60a5fa 50%, #3b82f6 100%);
-        border-radius: 8px;
-        transition: width 0.5s cubic-bezier(.77,0,.18,1), background 0.5s;
-        box-shadow: 0 0 12px #60a5fa88;
+        transition: width 0.55s cubic-bezier(.77,0,.18,1), background 0.55s;
+        box-shadow: 0 0 16px rgba(96,165,250,0.35);
     }
+.strength-bar > div::after {
+        /* highlight bubble sized ~20% smaller */
+        content: "";
+        position: absolute;
+        right: 2px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18%;
+        height: 120%;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.78), rgba(255,255,255,0.0) 62%);
+        opacity: 0.9;
+        pointer-events: none;
+    }
+
+
 
     #result {
         margin-top: 18px;
@@ -306,6 +338,118 @@
         font-weight: 600;
         transition: color 0.2s;
     }
-    .site-footer a:hover{
+.site-footer a:hover{
         color: #a7f3d0;
     }
+
+/* Premium section sizing (card heights/spacing) */
+.main-content {
+
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 0;
+}
+
+#analyzer,
+#generator,
+#about {
+    scroll-margin-top: 110px;
+}
+
+.analyzer-card {
+    width: 100%;
+    max-width: 560px;
+    margin: 0 auto;
+    height: auto;
+
+    /* Big + noticeable premium card */
+    min-height: 420px;
+
+    padding: 34px 26px;
+    border-radius: 34px;
+
+    /* Colorful glass + gradient */
+    background:
+        radial-gradient(900px 260px at 15% 0%, rgba(96,165,250,0.35), transparent 60%),
+        radial-gradient(700px 240px at 95% 10%, rgba(34,197,94,0.28), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.07));
+
+    border: 1.5px solid rgba(255,255,255,0.22);
+    -webkit-backdrop-filter: blur(22px) saturate(185%);
+    backdrop-filter: blur(22px) saturate(185%);
+
+    box-shadow:
+        0 40px 120px rgba(59,130,246,0.22),
+        0 18px 60px rgba(34,197,94,0.14),
+        0 1px 16px rgba(255,255,255,0.14);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: relative;
+}
+
+
+.analyzer-card::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    background:
+        radial-gradient(600px 220px at 20% 10%, rgba(96,165,250,0.22), transparent 60%),
+        radial-gradient(540px 240px at 90% 30%, rgba(34,197,94,0.20), transparent 60%);
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.analyzer-card > * {
+    position: relative;
+    z-index: 1;
+}
+
+#generator .analyzer-card,
+#about .analyzer-card {
+    min-height: 320px;
+    justify-content: center;
+}
+
+/* Smaller decorative shapes for a premium, compact look */
+#analyzer .hero-icon svg,
+#generator .hero-icon svg,
+#about .hero-icon svg {
+    transform: scale(0.7);
+    transform-origin: center;
+}
+
+
+
+/* Make hero + cards feel balanced */
+.hero-header {
+    padding-top: 10px;
+}
+
+/* tighter vertical rhythm on smaller screens */
+@media (max-width: 992px) {
+    .main-content {
+        padding: 28px 0;
+    }
+    .analyzer-card {
+        min-height: 300px;
+        padding: 22px 18px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 18px 0;
+    }
+    .analyzer-card {
+        min-height: 280px;
+        padding: 18px 14px;
+        border-radius: 24px;
+    }
+}
+
