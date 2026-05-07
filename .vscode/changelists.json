@@ -4,7 +4,8 @@
       "name": "Default",
       "files": [
         "TODO.md",
-        ".vscode/changelists.json"
+        ".vscode/changelists.json",
+        "__noop.txt"
       ]
     }
   ],
