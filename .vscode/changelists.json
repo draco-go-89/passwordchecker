@@ -5,7 +5,7 @@
       "files": [
         "TODO.md",
         ".vscode/changelists.json",
-        "__noop.txt"
+        "style.css"
       ]
     }
   ],
