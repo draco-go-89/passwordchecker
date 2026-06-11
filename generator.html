@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Vault | Password Generator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="particles" aria-hidden="true">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+  </div>
+
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="index.html">
+        <span class="logo-icon">🔐</span>
+        Password Checker
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" title="Toggle navigation" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Analyzer</a></li>
+          <li class="nav-item"><a class="nav-link active" href="generator.html">Generator</a></li>
+          <li class="nav-item"><a class="nav-link" href="history.html">History</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-xl-6 col-lg-7 col-md-9 col-12">
+
+          <section class="hud-shell">
+            <div class="hud-header">
+              <div class="hud-title">Generator Studio</div>
+              <div class="hud-subtitle">Tune your output. Generate strong, human-friendly passwords.</div>
+            </div>
+
+            <div class="hud-body">
+              <div class="mb-3">
+                <label class="form-label hud-label" for="genLength">Length <span class="hud-badge" id="genLengthVal">16</span></label>
+                <input id="genLength" type="range" class="form-range" min="8" max="64" value="16">
+              </div>
+
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="hud-card mini">
+                    <div class="hud-card-title">Character sets</div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="setUpper" checked>
+                      <label class="form-check-label" for="setUpper">Uppercase A-Z</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="setLower" checked>
+                      <label class="form-check-label" for="setLower">Lowercase a-z</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="setDigits" checked>
+                      <label class="form-check-label" for="setDigits">Digits 0-9</label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" id="setSymbols" checked>
+                      <label class="form-check-label" for="setSymbols">Symbols</label>
+                    </div>
+
+                    <div class="mt-3 d-flex flex-wrap gap-3">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="avoidAmbiguous" checked>
+                        <label class="form-check-label" for="avoidAmbiguous">No ambiguous</label>
+                      </div>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="avoidSimilar" checked>
+                        <label class="form-check-label" for="avoidSimilar">Avoid similar</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="hud-card mini">
+                    <div class="hud-card-title">Output</div>
+
+                    <div class="input-wrapper">
+                      <input type="text" id="generatedPassword" class="form-control" placeholder="Click Generate…" autocomplete="off" readonly>
+                      <button class="input-toggle" id="genCopyBtn" type="button" title="Copy generated password" aria-label="Copy generated password" onclick="copyGenerated()">
+                        <span id="genEyeIcon">📋</span>
+                      </button>
+                    </div>
+
+                    <div class="mt-3">
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div class="hud-label">Estimated</div>
+                        <div class="hud-badge hud-right" id="genEntropyBadge">—</div>
+                      </div>
+                      <div class="progress mt-2" aria-label="Generator strength">
+                        <div class="progress-fill" id="genStrengthFill"></div>
+                      </div>
+                      <div class="strength-labels">
+                        <span class="label weak">Weak</span>
+                        <span class="label medium">Medium</span>
+                        <span class="label strong">Strong</span>
+                      </div>
+                    </div>
+
+                    <div class="btn-grid mt-3" style="grid-template-columns: 1fr;">
+                      <button class="btn btn-primary" type="button" onclick="generateFromStudio()">⚡ Generate</button>
+                      <button class="btn btn-secondary" type="button" onclick="autoTuneToTarget()">🎯 Target Strength</button>
+                      <button class="btn btn-accent" type="button" onclick="regenerateAgain()">🔁 Regenerate</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="mt-4 hud-shell tight">
+            <div class="hud-header">
+              <div class="hud-title">History-aware</div>
+              <div class="hud-subtitle">Every generation is tracked. View your trend in History.</div>
+            </div>
+            <div class="hud-body">
+              <div class="d-flex gap-3 flex-wrap">
+                <a class="hud-link" href="history.html">Open History →</a>
+                <button class="hud-link" type="button" onclick="clearHistory()">Clear local history</button>
+              </div>
+            </div>
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <p>&copy; 2026 Password Checker. Built by Dhrubo Basumatary.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/___lubolabao.1___/">Connect with me</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast hud-toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="toast-body" id="toastMsg">Copied</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+

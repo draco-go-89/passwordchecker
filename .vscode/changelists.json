@@ -5,7 +5,14 @@
       "files": [
         "TODO.md",
         ".vscode/changelists.json",
-        "style.css"
+        "PLAN.md",
+        "generator.html",
+        "history.html",
+        "about.html",
+        ".gitignore",
+        "script.js",
+        "style.css",
+        "index.html"
       ]
     }
   ],
